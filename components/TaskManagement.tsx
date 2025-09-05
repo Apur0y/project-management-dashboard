@@ -1,44 +1,28 @@
-import React, { useRef } from 'react'
+const allTasks= [
+  {
+        title:"Task 1",
+        status: "TO DO"
+  },
+  {
+        title:"Task 2",
+        status: "IN PROGRESS"
+  },
+  {
+        title:"Task 3",
+        status: "TO DO"
+  },
+
+]
+
 
 export default function TaskManagement() {
 
-  const [position, setPosition] = React.useState({ x: 100, y: 100 });
-  const [isDragging, setIsDragging] = React.useState(false);
-  const [dragStart, setDragStart] = React.useState({ x: 0, y: 0 });
-
-      const containerRef = useRef(null);
-     
-      const handleMouseDown=(e)=>{
-     setIsDragging(true);
-     setDragStart({
-       x: e.clientX - position.x,
-       y: e.clientY - position.y,
-     });
-
-          
-      }
-
-      const handleMove=(e)=>{
-          if(isDragging){
-            setPosition({
-              x:e.clientX-dragStart.x,
-              y:e.clientY-dragStart.y
-            })
-          }
-      }
-
-      const handleMouseUp=()=>{
-            setIsDragging(false)
-      }
-
-
+    
 
   return (
 
         <div 
-            onMouseMove={handleMove}
-                onMouseUp={handleMouseUp}
-        className="flex-1 bg-gray-900 p-6 min-h-screen">
+        className="flex-1 bg-gray-900 p-6 min-h-full">
           {/* IN PROGRESS Section */}
           <div className="mb-8">
             <div className="flex items-center space-x-2 mb-4">
@@ -59,19 +43,14 @@ export default function TaskManagement() {
             </div>
 
             {/* Task Row */}
-            <div            
-            ref={containerRef}
-            onMouseDown={(e)=>handleMouseDown(e)}
-   
-            style={{
-              position:"absolute",
-              top:position.y+ "px",
-              left:position.x+"px"
-            }}
-            className="grid grid-cols-12 gap-4 items-center p-4 bg-gray-800 rounded hover:bg-gray-750 cursor-pointer">
+            {
+              allTasks.filter(t=>t.status==="IN PROGRESS").map(task=><>  
+              <div            
+               draggable
+               className="grid grid-cols-12 gap-4 items-center p-4 bg-gray-800 rounded hover:bg-gray-750 cursor-pointer">
               <div className="col-span-3 flex items-center space-x-2">
                 <div className="w-4 h-4 border border-gray-500 rounded"></div>
-                <span>Task 1</span>
+                <span>{task.title}</span>
               </div>
               <div className="col-span-2">
                 <div className="w-6 h-6 bg-gray-600 rounded-full"></div>
@@ -82,7 +61,9 @@ export default function TaskManagement() {
                 <span className="px-2 py-1 bg-blue-600 text-white text-xs rounded">IN PROGR...</span>
               </div>
               <div className="col-span-1 text-gray-400">-</div>
-            </div>
+            </div></>)
+            }
+          
 
             <button className="mt-2 text-gray-500 hover:text-white text-sm px-4">+ Add Task</button>
           </div>
@@ -106,40 +87,29 @@ export default function TaskManagement() {
               <div className="col-span-1">Comments</div>
             </div>
 
-            {/* Task Rows */}
-            <div className="space-y-1">
-              <div className="grid grid-cols-12 gap-4 items-center p-4 bg-gray-800 rounded hover:bg-gray-750 cursor-pointer">
-                <div className="col-span-3 flex items-center space-x-2">
-                  <div className="w-4 h-4 border border-gray-500 rounded"></div>
-                  <span>Task 2</span>
-                </div>
-                <div className="col-span-2">
-                  <div className="w-6 h-6 bg-gray-600 rounded-full"></div>
-                </div>
-                <div className="col-span-2 text-gray-400">-</div>
-                <div className="col-span-2 text-gray-400">-</div>
-                <div className="col-span-2">
-                  <span className="px-2 py-1 bg-gray-600 text-white text-xs rounded">TO DO</span>
-                </div>
-                <div className="col-span-1 text-gray-400">-</div>
+           
+            {/* Task Row */}
+            
+            {
+              allTasks.filter(t=>t.status==="TO DO").map(task=><>  
+              <div            
+               draggable
+               className="grid grid-cols-12 gap-4 items-center p-4 bg-gray-800 rounded hover:bg-gray-750 cursor-pointer">
+              <div className="col-span-3 flex items-center space-x-2">
+                <div className="w-4 h-4 border border-gray-500 rounded"></div>
+                <span>{task.title}</span>
               </div>
-
-              <div className="grid grid-cols-12 gap-4 items-center p-4 bg-gray-800 rounded hover:bg-gray-750 cursor-pointer">
-                <div className="col-span-3 flex items-center space-x-2">
-                  <div className="w-4 h-4 border border-gray-500 rounded"></div>
-                  <span>Task 3</span>
-                </div>
-                <div className="col-span-2">
-                  <div className="w-6 h-6 bg-gray-600 rounded-full"></div>
-                </div>
-                <div className="col-span-2 text-gray-400">-</div>
-                <div className="col-span-2 text-gray-400">-</div>
-                <div className="col-span-2">
-                  <span className="px-2 py-1 bg-gray-600 text-white text-xs rounded">TO DO</span>
-                </div>
-                <div className="col-span-1 text-gray-400">-</div>
+              <div className="col-span-2">
+                <div className="w-6 h-6 bg-gray-600 rounded-full"></div>
               </div>
-            </div>
+              <div className="col-span-2 text-gray-400">-</div>
+              <div className="col-span-2 text-gray-400">-</div>
+              <div className="col-span-2">
+                <span className="px-2 py-1 bg-blue-600 text-white text-xs rounded">IN PROGR...</span>
+              </div>
+              <div className="col-span-1 text-gray-400">-</div>
+            </div></>)
+            }
 
             <button className="mt-2 text-gray-500 hover:text-white text-sm px-4">+ Add Task</button>
           </div>

@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 export default function page() {
       const [activeTab, setActiveTab] = useState("List")
     
-      const tabs = ["List", "Board", "Calendar", "Gantt", "Table", "View"]
+      const tabs = ["List"]
     
   return (
     <div >
