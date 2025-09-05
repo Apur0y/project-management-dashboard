@@ -2,17 +2,43 @@ import React, { useRef } from 'react'
 
 export default function TaskManagement() {
 
+  const [position, setPosition] = React.useState({ x: 100, y: 100 });
+  const [isDragging, setIsDragging] = React.useState(false);
+  const [dragStart, setDragStart] = React.useState({ x: 0, y: 0 });
+
       const containerRef = useRef(null);
      
-      const handleMouseDown=()=>{
+      const handleMouseDown=(e)=>{
+     setIsDragging(true);
+     setDragStart({
+       x: e.clientX - position.x,
+       y: e.clientY - position.y,
+     });
+
           
+      }
+
+      const handleMove=(e)=>{
+          if(isDragging){
+            setPosition({
+              x:e.clientX-dragStart.x,
+              y:e.clientY-dragStart.y
+            })
+          }
+      }
+
+      const handleMouseUp=()=>{
+            setIsDragging(false)
       }
 
 
 
   return (
 
-        <div  className="flex-1 bg-gray-900 p-6 min-h-screen">
+        <div 
+            onMouseMove={handleMove}
+                onMouseUp={handleMouseUp}
+        className="flex-1 bg-gray-900 p-6 min-h-screen">
           {/* IN PROGRESS Section */}
           <div className="mb-8">
             <div className="flex items-center space-x-2 mb-4">
@@ -35,7 +61,13 @@ export default function TaskManagement() {
             {/* Task Row */}
             <div            
             ref={containerRef}
-            onMouseDown={handleMouseDown}
+            onMouseDown={(e)=>handleMouseDown(e)}
+   
+            style={{
+              position:"absolute",
+              top:position.y+ "px",
+              left:position.x+"px"
+            }}
             className="grid grid-cols-12 gap-4 items-center p-4 bg-gray-800 rounded hover:bg-gray-750 cursor-pointer">
               <div className="col-span-3 flex items-center space-x-2">
                 <div className="w-4 h-4 border border-gray-500 rounded"></div>
